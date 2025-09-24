@@ -1,0 +1,24 @@
+{
+  "name": "composite.js",
+  "version": "1.0.1",
+  "description": "A polyfill for the TC39 Composites proposal: structured immutable objects with well-defined equality.",
+  "repository": "https://github.com/DinoscapeProgramming/composite.js",
+  "homepage": "https://github.com/DinoscapeProgramming/composite.js",
+  "main": "index.js",
+  "types": "./index.d.ts",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "keywords": [
+    "composite",
+    "tc39",
+    "polyfill",
+    "immutable",
+    "deep-equality",
+    "map-key",
+    "set-key"
+  ],
+  "author": "DinoscapeProgramming",
+  "license": "MIT",
+  "type": "commonjs"
+}
