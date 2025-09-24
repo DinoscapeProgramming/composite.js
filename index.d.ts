@@ -5,9 +5,9 @@ export interface CompositeObject {
 export interface Composite {
   /**
    * Create a new composite object from a plain object.
-   * @param obj A plain object
+   * @param object A plain object
    */
-  (obj: object): CompositeObject;
+  (object: object): CompositeObject;
 
   /**
    * Create a new composite from a list of values (ordinal composite)

@@ -58,9 +58,9 @@ console.log([...positions].some((p) => Composite.equal(p, pos2))); // true
 
 ## API
 
-### `Composite(obj: object): CompositeObject`
+### `Composite(object: object): CompositeObject`
 
-Creates a new composite object from a plain object. Throws if `obj` is not an object.
+Creates a new composite object from a plain object. Throws if `object` is not an object.
 
 ### `Composite.of(...args: any[]): CompositeObject`
 
