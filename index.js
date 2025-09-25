@@ -72,7 +72,7 @@ module.exports = (() => {
     setHas: _SetProto.has,
     setAdd: _SetProto.add,
     setDelete: _SetProto.delete,
-    setForEach: _SetProto.forEach,
+    setForEach: _SetProto.forEach
   };
 
   function findCompositeKeyInMap(map, compositeKey) {
