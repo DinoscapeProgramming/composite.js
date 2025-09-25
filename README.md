@@ -1,26 +1,27 @@
 # Composite Polyfill
 
-A polyfill for the [**TC39 Composites proposal (Stage 1)**](https://github.com/tc39/proposal-composites): structured, immutable objects with well-defined equality semantics, suitable for use as keys in `Map` and `Set`.  
+A polyfill for the [**TC39 Composites proposal (Stage 1)**](https://github.com/tc39/proposal-composites): structured, immutable objects with well-defined equality semantics, suitable for use as keys in `Map` and `Set`.
 
-This implementation allows you to create **composite objects** that:  
-- Are immutable (`Object.freeze`).  
-- Support nested composites.  
-- Can be compared with `Composite.equal`.  
-- Can be used in Sets/Maps (with custom equality checks).  
-- Support ordinal composites (`Composite.of`) like arrays with fixed positions.  
+This implementation allows you to create **composite objects** that:
+
+* Are immutable (`Object.freeze`).
+* Support nested composites.
+* Can be compared with `Composite.equal`.
+* Work **directly in `Map` and `Set`** with structural equality (patched globally).
+* Support ordinal composites (`Composite.of`) like arrays with fixed positions.
 
 ---
 
 ## Installation
 
 ```bash
-npm install composite.js
-````
+$ npm install composite.js
+```
 
 or
 
 ```bash
-yarn add composite.js
+$ yarn add composite.js
 ```
 
 ---
@@ -30,7 +31,7 @@ yarn add composite.js
 ```ts
 const Composite = require("composite.js"); // ESM also works
 
-// Create simple composite
+// Create simple composites
 const pos1 = Composite({ x: 1, y: 4 });
 const pos2 = Composite({ x: 1, y: 4 });
 
@@ -48,10 +49,19 @@ const ord = Composite.of("a", "b", "c");
 console.log(ord[0], ord[1], ord[2]); // a b c
 console.log(ord.length); // 3
 
-// Using in a Set
+// Using composites in a Set (structural equality)
 const positions = new Set();
 positions.add(pos1);
-console.log([...positions].some((p) => Composite.equal(p, pos2))); // true
+console.log(positions.has(pos2)); // true
+
+// Using composites as keys in a Map
+const map = new Map();
+map.set(pos1, "point");
+console.log(map.get(pos2)); // "point"
+
+// If you need to restore native behavior
+Composite.unpatch();
+console.log(positions.has(pos2)); // false (back to reference equality)
 ```
 
 ---
@@ -74,13 +84,18 @@ Checks if two composites are equal. Works recursively for nested composites.
 
 Returns `true` if the value is a composite created with `Composite()`.
 
+### `Composite.unpatch(): void`
+
+Restores the native `Map` and `Set` behavior, disabling composite structural equality.
+
 ---
 
 ## Notes
 
 * Composites are **shallowly immutable**. Nested objects are not frozen unless explicitly made composites.
 * Composites are compared **by structure**, not by reference.
-* Can be used with `Set`/`Map` by wrapping operations with `Composite.equal`.
+* `Map` and `Set` are **patched automatically** so that composites are compared structurally. No manual equality checks are needed.
+* `WeakMap` and `WeakSet` are **not patched** — they continue to use reference equality, just like with normal objects.
 * Symbols as keys are supported.
 
 ---

@@ -27,6 +27,11 @@ export interface Composite {
    * @param value Value to check
    */
   isComposite(value: any): value is CompositeObject;
+
+  /**
+   * Restore the native behavior of Map and Set, disabling structural equality for composites.
+   */
+  unpatch(): void;
 };
 
 declare const Composite: Composite;
